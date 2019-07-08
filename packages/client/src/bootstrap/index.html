@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <title><%- htmlWebpackPlugin.options.data.title %></title>
+
+    <%= htmlWebpackPlugin.options.data.html %>
+
+    <base href="/">
+</head>
+
+<body>
+
+    <main>
+        <!-- preloading & fallback -->
+        <%= htmlWebpackPlugin.options.data.fallback %>
+    </main>
+
+    <!-- no JavaScript -->
+    <noscript>
+        Strona wymaga JavaScriptu do działania. Uruchom go i odśwież stronę.
+    </noscript>
+
+</body>
+
+</html>
