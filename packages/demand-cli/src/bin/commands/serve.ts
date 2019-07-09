@@ -1,11 +1,51 @@
-import * as http2 from 'http2';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as mime from 'mime-types';
+import * as childProcess from 'child_process';
 import * as demand from '../../../../demand-core';
-import build from './build';
+import * as fs from 'fs';
+import * as gulp from 'gulp';
+import * as http2 from 'http2';
+import * as mime from 'mime-types';
+import * as path from 'path';
+import * as tap from 'gulp-tap';
 
-import { dir } from './shared';
+import build from './build';
+import { dir, src } from './shared';
+
+// helpers
+const watch = async () => {
+    console.log(`Watching...`);
+
+    // watch directory for new files
+    gulp.src([`${src}/*.*`, `${src}/**/*.*`]).pipe(tap((file, through) => {
+
+        fs.watchFile(file.path, () => {
+
+            const ext = file.path.match(/\.\w+$/)[0];
+            childProcess.exec('tsc -p ./tsconfig.json', () => {
+                console.log(`Updated`, file.basename);
+            });
+            // switch (ext) {
+            //     case '.scss':
+            //         break;
+            //     case '.ts':
+            //         break;
+            //     default:
+
+            //         break;
+            // }
+        });
+
+        // let fileContent = file.contents.toString();
+
+    }));
+
+    // watch existing files for changes
+    // gulp.watch([`${dir}/*`, `${dir}/**/*`], (source: any) => {
+    //     console.log(source.path);
+    //     return gulp.src(source.path).pipe(tap((file) => {
+    //         console.log(`file changed`, file.basename);
+    //     }));
+    // });
+};
 
 // command
 const serve = async () => {
@@ -63,8 +103,8 @@ const serve = async () => {
         stream.respondWithFile(fullPath, {
             'content-type': responseMimeType,
         }, {
-            onError: (err) => onError(err, stream),
-        });
+                onError: (err) => onError(err, stream),
+            });
 
     });
 
@@ -75,6 +115,9 @@ const serve = async () => {
     server.listen(config.devServer.port, config.devServer.host);
 
     console.log(`Serving successful! Check out https://${config.devServer.host}:${config.devServer.port}/`);
+
+    // watch files
+    await watch();
 };
 
 export default serve;

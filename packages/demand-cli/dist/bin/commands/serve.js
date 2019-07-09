@@ -1,11 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const http2 = require("http2");
+const childProcess = require("child_process");
 const fs = require("fs");
-const path = require("path");
+const gulp = require("gulp");
+const http2 = require("http2");
 const mime = require("mime-types");
+const path = require("path");
+const tap = require("gulp-tap");
 const build_1 = require("./build");
 const shared_1 = require("./shared");
+const watch = async () => {
+    console.log(`Watching...`);
+    gulp.src([`${shared_1.src}/*.*`, `${shared_1.src}/**/*.*`]).pipe(tap((file, through) => {
+        fs.watchFile(file.path, () => {
+            const ext = file.path.match(/\.\w+$/)[0];
+            childProcess.exec('tsc -p ./tsconfig.json', () => {
+                console.log(`Updated`, file.basename);
+            });
+        });
+    }));
+};
 const serve = async () => {
     console.log(`Serving...`);
     const { HTTP2_HEADER_PATH, HTTP2_HEADER_METHOD, HTTP_STATUS_NOT_FOUND, HTTP_STATUS_INTERNAL_SERVER_ERROR } = http2.constants;
@@ -44,6 +58,7 @@ const serve = async () => {
     await build_1.default();
     server.listen(config.devServer.port, config.devServer.host);
     console.log(`Serving successful! Check out https://${config.devServer.host}:${config.devServer.port}/`);
+    await watch();
 };
 exports.default = serve;
 //# sourceMappingURL=serve.js.map

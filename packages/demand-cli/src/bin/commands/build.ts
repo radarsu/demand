@@ -3,8 +3,6 @@ import * as gulp from 'gulp';
 import * as sass from 'gulp-sass';
 import * as tap from 'gulp-tap';
 
-import { dir } from './shared';
-
 // command
 const runBuild = async () => {
     console.log(`Building...`);

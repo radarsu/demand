@@ -14,7 +14,7 @@ export class Gulpfile {
     @Task()
     async build() {
         this.runBuild().catch((e) => {
-            console.error(e.output.toString());
+            console.error(`Error`, e.output.toString());
         });
     }
 
