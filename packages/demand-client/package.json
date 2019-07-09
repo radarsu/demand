@@ -1,0 +1,17 @@
+{
+    "name": "demand-client",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "node ../demand-cli/dist/bin/demand build",
+        "start": "node ../demand-cli/dist/bin/demand serve"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^12.6.0",
+        "typescript": "^3.5.2"
+    },
+    "dependencies": {}
+}

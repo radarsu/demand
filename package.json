@@ -1,14 +1,15 @@
 {
-  "name": "shard-native",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "lerna": "^3.15.0"
-  }
+    "name": "demand",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nps"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "lerna": "^3.15.0",
+        "nps": "^5.9.5"
+    }
 }

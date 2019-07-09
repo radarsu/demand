@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "allowJs": false,
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./src",
+        "composite": true,
+        "declaration": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "noLib": false,
+        "outDir": "./dist",
+        "removeComments": true,
+        "resolveJsonModule": true,
+        "sourceMap": true,
+        "target": "esnext"
+    },
+    "include": [
+        "src/**/*",
+        "gulpfile.ts"
+    ]
+}
