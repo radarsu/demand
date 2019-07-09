@@ -16,7 +16,7 @@
 
 ## What problem do we solve?
 
-**Webpack**: CommonJS module resolution **adds tons of code to every js file**. It bundles stuff, which **is bad for http2 and cache'ing resources** and it definitely **doesn't use the platform**.
+**Webpack**: CommonJS module resolution **adds tons of code to every js file**. It bundles stuff, which nowadays **is bad for http2 and cache'ing resources**.
 
 **Angular** is **huge, initial page load is slow**. We decided to load all the JavaScript, html and css in the ES6 module dynamically, so **initial website loading takes absolutely no time** and all **component-based resources are added during runtime on-demand**.
 
