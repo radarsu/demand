@@ -1,5 +1,5 @@
 import * as childProcess from 'child_process';
-import * as demand from '../../../../demand-core';
+import * as demand from '../../../../core';
 import * as fs from 'fs';
 import * as gulp from 'gulp';
 import * as http2 from 'http2';

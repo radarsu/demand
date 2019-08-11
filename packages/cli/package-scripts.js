@@ -1,5 +1,5 @@
 const scripts = {
-    build: `gulp build`,
+    build: `npm run build`,
 };
 
 module.exports = scripts;

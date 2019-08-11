@@ -14,14 +14,22 @@ const scripts = {
 // dynamically load other scripts and add 'cd directory' before execution
 const packagesPath = `./packages`;
 fs.readdirSync(packagesPath).forEach((name) => {
-    const script = require(`${packagesPath}/${name}/package-scripts.js`);
+    let script;
+    try {
+        script = require(`${packagesPath}/${name}/package-scripts.js`);
+    } catch (e) {
+
+    }
+
+    if (!script) { 
+        return;
+    }
 
     Object.entries(script).forEach(([key, value]) => {
         script[key] = `cd ${packagesPath}/${name} && ${value}`;
     });
 
     scripts[name] = script;
-
 });
 
 module.exports = {

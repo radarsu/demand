@@ -1,4 +1,4 @@
-import Element from 'demand-element/dist/index';
+import Element from 'element/dist/index';
 
 console.log(`THE APP LOADED`);
 
