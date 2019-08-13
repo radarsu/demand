@@ -1,4 +1,4 @@
-// import * as demand from '../demand-core';
+// import * as demand from '../core';
 
 const config: any = {
     devServer: {

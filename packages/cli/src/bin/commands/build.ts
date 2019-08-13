@@ -41,6 +41,12 @@ const runBuild = async () => {
     // create symlink to node_modules: TODO: change to copying
     gulp.src(`./node_modules`).pipe(gulp.symlink(`./dist`));
 
+    // TODO: for dev time only
+    gulp.src(`../node_modules/core`).pipe(gulp.symlink(`./dist`));
+    gulp.src(`../node_modules/element`).pipe(gulp.symlink(`./dist`));
+    gulp.src(`../node_modules/router`).pipe(gulp.symlink(`./dist`));
+    gulp.src(`../node_modules/service-worker`).pipe(gulp.symlink(`./dist`));
+
     console.log(`Build successful!`);
 };
 

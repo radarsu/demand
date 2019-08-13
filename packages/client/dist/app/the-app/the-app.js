@@ -1,5 +1,4 @@
-import Element from '/node_modules/element/dist/index.js';
-console.log(`THE APP LOADED`);
+import Element from 'element/dist/index';
 class TheApp extends Element {
 }
 customElements.define('the-app', TheApp);

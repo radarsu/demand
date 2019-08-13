@@ -4,8 +4,8 @@
     "description": "",
     "main": "dist/index.js",
     "scripts": {
-        "build": "node ../demand-cli/dist/bin/demand build",
-        "start": "node ../demand-cli/dist/bin/demand serve"
+        "build": "node ../cli/dist/bin/demand build",
+        "start": "node ../cli/dist/bin/demand serve"
     },
     "author": "",
     "license": "ISC",

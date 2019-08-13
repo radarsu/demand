@@ -25,6 +25,10 @@ const runBuild = async () => {
         file.contents = Buffer.from(fileContent);
     })).pipe(gulp.dest(`./dist`));
     gulp.src(`./node_modules`).pipe(gulp.symlink(`./dist`));
+    gulp.src(`../core`).pipe(gulp.symlink(`./dist`));
+    gulp.src(`../element`).pipe(gulp.symlink(`./dist`));
+    gulp.src(`../router`).pipe(gulp.symlink(`./dist`));
+    gulp.src(`../service-worker`).pipe(gulp.symlink(`./dist`));
     console.log(`Build successful!`);
 };
 const build = async () => {

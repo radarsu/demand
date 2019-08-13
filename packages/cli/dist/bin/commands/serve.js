@@ -41,14 +41,21 @@ const serve = async () => {
         }
         stream.end();
     };
+    const mimeMap = {
+        'image/vnd.microsoft.icon': 'image/x-icon',
+    };
     server.on('stream', (stream, headers) => {
         let reqPath = headers[HTTP2_HEADER_PATH];
         const reqMethod = headers[HTTP2_HEADER_METHOD];
         if (reqPath === '/') {
             reqPath = '/index.html';
         }
+        else if (reqPath === '/favicon.ico') {
+            reqPath = '/assets/favicon.ico';
+        }
         const fullPath = path.join(serverRoot, reqPath);
-        const responseMimeType = mime.lookup(fullPath);
+        const mimeLookupResult = mime.lookup(fullPath);
+        const responseMimeType = mimeMap[mimeLookupResult] || mimeLookupResult;
         stream.respondWithFile(fullPath, {
             'content-type': responseMimeType,
         }, {

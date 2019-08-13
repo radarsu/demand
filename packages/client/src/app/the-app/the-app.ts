@@ -1,6 +1,5 @@
 import Element from 'element/dist/index';
-
-console.log(`THE APP LOADED`);
+// import sw from 'service-worker';
 
 class TheApp extends Element {
     /* demand:inject */

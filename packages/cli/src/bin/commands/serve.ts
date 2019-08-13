@@ -88,6 +88,10 @@ const serve = async () => {
         stream.end();
     };
 
+    const mimeMap: { [mimeLookup: string]: string } = {
+        'image/vnd.microsoft.icon': 'image/x-icon',
+    };
+
     // handle static requests
     server.on('stream', (stream, headers) => {
         let reqPath = headers[HTTP2_HEADER_PATH] as string;
@@ -95,16 +99,18 @@ const serve = async () => {
 
         if (reqPath === '/') {
             reqPath = '/index.html';
+        } else if (reqPath === '/favicon.ico') {
+            reqPath = '/assets/favicon.ico';
         }
 
         const fullPath = path.join(serverRoot, reqPath);
-        const responseMimeType = mime.lookup(fullPath) as string;
-
+        const mimeLookupResult = mime.lookup(fullPath) as string;
+        const responseMimeType = mimeMap[mimeLookupResult] || mimeLookupResult;
         stream.respondWithFile(fullPath, {
             'content-type': responseMimeType,
         }, {
-                onError: (err) => onError(err, stream),
-            });
+            onError: (err) => onError(err, stream),
+        });
 
     });
 

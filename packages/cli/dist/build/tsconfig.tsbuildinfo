@@ -461,11 +461,11 @@
         "signature": "90d71f11d400feba5a73005992b2cb1ff50bab6e24fa9445a467508fbe200b11"
       },
       "/mnt/c/Users/rkroh/Desktop/workspace/demand/packages/cli/src/bin/commands/build.ts": {
-        "version": "13e1f59a69a45b7a3d0c3b6603fbfbe835dfb14ef5b83cfd69d5acdea7a6a212",
+        "version": "faeda46b94e4cec27d756e4286b8c4609dafb496884790a202f38a8b5f4f83f1",
         "signature": "0068fdef5d9a93eff11f36191606a19afa64dc527a36ca93e9d95946c898c694"
       },
       "/mnt/c/Users/rkroh/Desktop/workspace/demand/packages/cli/src/bin/commands/serve.ts": {
-        "version": "8518d057d0b89caa60d9602cca9184afc6de92c79d615a54f685c1a35e70d657",
+        "version": "f375226105d1a9cd1a5790c3b988aee1aa7760d2899dd0847690593591ef3d57",
         "signature": "14c9001d6f8424183bfb1afc54a58e510c04bd27b18066b7ec91ebf76efe5323"
       },
       "/mnt/c/Users/rkroh/Desktop/workspace/demand/packages/cli/src/bin/demand.ts": {
