@@ -1,0 +1,45 @@
+{
+    "name": "demand-cli",
+    "version": "1.0.0",
+    "description": "On demand.",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "bin": {
+        "demand": "./dist/bin/demand.js"
+    },
+    "scripts": {},
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+<<<<<<< HEAD:packages/demand-cli/package.json
+        "lodash": "^4.17.14",
+=======
+        "lodash": "^4.17.15",
+>>>>>>> 5eb87133bcff5d83641e6134e30bb6c74875da15:packages/cli/package.json
+        "mime-types": "^2.1.24",
+        "yargs": "^13.3.0"
+    },
+    "devDependencies": {
+        "@pika/web": "^0.5.1",
+        "@types/gulp-sass": "^4.0.0",
+        "@types/gulp-tap": "^1.0.0",
+        "@types/lodash": "^4.14.136",
+        "@types/mime-types": "^2.1.0",
+<<<<<<< HEAD:packages/demand-cli/package.json
+        "@types/node": "^12.6.8",
+        "@types/yargs": "^13.0.0",
+=======
+        "@types/node": "^12.7.1",
+        "@types/yargs": "^13.0.2",
+>>>>>>> 5eb87133bcff5d83641e6134e30bb6c74875da15:packages/cli/package.json
+        "gulp": "^4.0.2",
+        "gulp-sass": "^4.0.2",
+        "gulp-tap": "^1.0.1",
+        "gulp-typescript": "^5.0.1",
+        "gulpclass": "^0.2.0",
+        "node-sass": "^4.12.0",
+        "ts-node": "^8.3.0",
+        "typescript": "^3.5.3",
+        "typescript-require": "^0.2.10"
+    }
+}

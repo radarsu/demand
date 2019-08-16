@@ -3,7 +3,7 @@ const fs = require('fs');
 // global scripts
 const scripts = {
     demand: {
-        bootstrap: `lerna bootstrap`,
+        install: `lerna bootstrap`,
         build: `lerna run build --parallel`,
         default: `node index.js`,
         script: `lerna run`,
@@ -13,17 +13,23 @@ const scripts = {
 
 // dynamically load other scripts and add 'cd directory' before execution
 const packagesPath = `./packages`;
-const prefix = `demand-`;
 fs.readdirSync(packagesPath).forEach((name) => {
-    const shortName = name.replace(prefix, '');
-    const script = require(`${packagesPath}/${name}/package-scripts.js`);
+    let script;
+    try {
+        script = require(`${packagesPath}/${name}/package-scripts.js`);
+    } catch (e) {
+
+    }
+
+    if (!script) { 
+        return;
+    }
 
     Object.entries(script).forEach(([key, value]) => {
         script[key] = `cd ${packagesPath}/${name} && ${value}`;
     });
 
-    scripts[shortName] = script;
-
+    scripts[name] = script;
 });
 
 module.exports = {
