@@ -14,7 +14,7 @@
     <strong>Lighweight and blazingly fast</strong> framework using <strong>latest browser features</strong> with <strong>use the platform</strong> approach to provide you the greatest setup. <strong>No magic</strong> included.
 </p>
 
-## What problem do we solve?
+## What problem it solves?
 
 **Webpack**: CommonJS module resolution **adds tons of code to every js file**. It bundles stuff, which nowadays **is bad for http2 and cache'ing resources**.
 
@@ -22,11 +22,14 @@
 
 **Vue and React** are close to what we are, but **they do hell-a-lot of magic**. Virtual DOM, Webpack, getters and setters. We replace that with simple and neat **lit-html**.
 
-**Lit-Element, StencilJS** and all the WebComponents libraries that are closest to our solution - **they force us to use css and html inside js** and also use getters and setters.
+## What do we use?
+- **@pika/web** - runs npm dependencies directly in the browser. No Browserify, Webpack or import maps required.
+- **Gulp** for building process.
+- **lit-element** for WebComponents.
 
 ## Features
 
-1. **Convention over configuration** - we make certain assumtions. If establishing a simple convention can produce less and cleaner code - we go for it.
+1. **Convention over configuration** - we make certain assumtions. When a simple convention can produce less and cleaner code - we go for it.
 
 2. **Lightweight** - we use **lit-html** and continue it's thought, that adding any line of code should be considered twice. We don't do fancy stuff.
 

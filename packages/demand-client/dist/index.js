@@ -1,4 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    await import(`./app/the-app/the-app.js`);
+  // document.body.innerHTML = `<the-app></the-app>`;
+  await import(`./app/the-app/the-app.js`);
 });
-//# sourceMappingURL=index.js.map

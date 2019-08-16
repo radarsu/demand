@@ -3,15 +3,24 @@
     "version": "1.0.0",
     "description": "",
     "main": "dist/index.js",
-    "scripts": {
-        "build": "node ../demand-cli/dist/bin/demand build",
-        "start": "node ../demand-cli/dist/bin/demand serve"
-    },
+    "scripts": {},
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@babel/cli": "^7.5.0",
+        "@babel/core": "^7.5.4",
+        "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+        "@pika/web": "^0.4.3",
         "@types/node": "^12.6.0",
+        "babel-plugin-import-pika-web": "0.0.5",
         "typescript": "^3.5.2"
     },
-    "dependencies": {}
+    "dependencies": {
+        "lit-element": "^2.2.0"
+    },
+    "@pika/web": {
+        "webDependencies": [
+            "lit-element"
+        ]
+    }
 }

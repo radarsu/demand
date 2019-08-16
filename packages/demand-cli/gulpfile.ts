@@ -24,7 +24,7 @@ export class Gulpfile {
         this.clean();
 
         // compile typescript
-        childProcess.execSync(`tsc -p ./build/tsconfig.json`);
+        childProcess.execSync(`tsc -P ./build/tsconfig.json`);
 
         // move files to parent directory
         childProcess.execSync(`mv ./dist/src/* dist`);

@@ -1,28 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const childProcess = require("child_process");
 const fs = require("fs");
-const gulp = require("gulp");
 const http2 = require("http2");
 const mime = require("mime-types");
 const path = require("path");
-const tap = require("gulp-tap");
 const build_1 = require("./build");
+const watch_1 = require("./watch");
 const shared_1 = require("./shared");
-const watch = async () => {
-    console.log(`Watching...`);
-    gulp.src([`${shared_1.src}/*.*`, `${shared_1.src}/**/*.*`]).pipe(tap((file, through) => {
-        fs.watchFile(file.path, () => {
-            const ext = file.path.match(/\.\w+$/)[0];
-            childProcess.exec('tsc -p ./tsconfig.json', () => {
-                console.log(`Updated`, file.basename);
-            });
-        });
-    }));
-};
 const serve = async () => {
-    console.log(`Serving...`);
-    const { HTTP2_HEADER_PATH, HTTP2_HEADER_METHOD, HTTP_STATUS_NOT_FOUND, HTTP_STATUS_INTERNAL_SERVER_ERROR } = http2.constants;
+    shared_1.log(`Serving...`);
+    const { HTTP_STATUS_INTERNAL_SERVER_ERROR, HTTP_STATUS_NOT_FOUND, HTTP_STATUS_OK, HTTP2_HEADER_METHOD, HTTP2_HEADER_PATH, } = http2.constants;
     const config = (await Promise.resolve().then(() => require(`${shared_1.dir}/demand.config.ts`))).default;
     const [key, cert] = await Promise.all([
         fs.promises.readFile(config.devServer.https.key, 'utf-8'),
@@ -32,33 +19,59 @@ const serve = async () => {
     config.devServer.https.cert = cert;
     const server = http2.createSecureServer(config.devServer.https);
     const serverRoot = `./dist`;
-    const onError = (err, stream) => {
+    const onError = (err, res) => {
         if (err.code === 'ENOENT') {
-            stream.respond({ ':status': HTTP_STATUS_NOT_FOUND });
+            res.writeHead(HTTP_STATUS_NOT_FOUND);
         }
         else {
-            stream.respond({ ':status': HTTP_STATUS_INTERNAL_SERVER_ERROR });
+            res.writeHead(HTTP_STATUS_INTERNAL_SERVER_ERROR);
         }
-        stream.end();
+        res.end();
+    };
+    const onHmr = (req, res) => {
+        req.socket.setKeepAlive(true);
+        req.socket.setTimeout(30000000);
+        res.writeHead(HTTP_STATUS_OK, {
+            'cache-control': 'no-cache',
+            'content-type': 'text/event-stream',
+        });
+        const interval = setInterval(() => {
+            if (!res.stream.writable) {
+                console.log(`Not-writable.`);
+                clearInterval(interval);
+                return;
+            }
+            console.log(`Emitting...`);
+            res.write('test');
+        }, 1000);
     };
     server.on('stream', (stream, headers) => {
-        let reqPath = headers[HTTP2_HEADER_PATH];
-        const reqMethod = headers[HTTP2_HEADER_METHOD];
-        if (reqPath === '/') {
-            reqPath = '/index.html';
+        if (headers[':path'] === '/hmr') {
+            stream.push(`LOL1`, 'utf-8');
+            stream.write(`LOL2`, 'utf-8');
         }
-        const fullPath = path.join(serverRoot, reqPath);
+    });
+    server.on('request', (req, res) => {
+        let reqUrl = req.url;
+        shared_1.log(reqUrl);
+        if (reqUrl === '/hmr') {
+            return;
+        }
+        if (reqUrl === '/') {
+            reqUrl = '/index.html';
+        }
+        const fullPath = path.join(serverRoot, reqUrl);
         const responseMimeType = mime.lookup(fullPath);
-        stream.respondWithFile(fullPath, {
+        res.stream.respondWithFile(fullPath, {
             'content-type': responseMimeType,
         }, {
-            onError: (err) => onError(err, stream),
+            onError: (err) => onError(err, res),
         });
     });
     await build_1.default();
     server.listen(config.devServer.port, config.devServer.host);
-    console.log(`Serving successful! Check out https://${config.devServer.host}:${config.devServer.port}/`);
-    await watch();
+    shared_1.log(`Serving successful! Check out https://${config.devServer.host}:${config.devServer.port}/`);
+    await watch_1.default();
 };
 exports.default = serve;
 //# sourceMappingURL=serve.js.map

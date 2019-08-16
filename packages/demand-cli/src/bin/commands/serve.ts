@@ -1,62 +1,27 @@
-import * as childProcess from 'child_process';
 import * as demand from '../../../../demand-core';
 import * as fs from 'fs';
-import * as gulp from 'gulp';
 import * as http2 from 'http2';
 import * as mime from 'mime-types';
 import * as path from 'path';
-import * as tap from 'gulp-tap';
 
 import build from './build';
-import { dir, src } from './shared';
+import watch from './watch';
+
+import { dir, log } from './shared';
 
 // helpers
-const watch = async () => {
-    console.log(`Watching...`);
-
-    // watch directory for new files
-    gulp.src([`${src}/*.*`, `${src}/**/*.*`]).pipe(tap((file, through) => {
-
-        fs.watchFile(file.path, () => {
-
-            const ext = file.path.match(/\.\w+$/)[0];
-            childProcess.exec('tsc -p ./tsconfig.json', () => {
-                console.log(`Updated`, file.basename);
-            });
-            // switch (ext) {
-            //     case '.scss':
-            //         break;
-            //     case '.ts':
-            //         break;
-            //     default:
-
-            //         break;
-            // }
-        });
-
-        // let fileContent = file.contents.toString();
-
-    }));
-
-    // watch existing files for changes
-    // gulp.watch([`${dir}/*`, `${dir}/**/*`], (source: any) => {
-    //     console.log(source.path);
-    //     return gulp.src(source.path).pipe(tap((file) => {
-    //         console.log(`file changed`, file.basename);
-    //     }));
-    // });
-};
 
 // command
 const serve = async () => {
-    console.log(`Serving...`);
+    log(`Serving...`);
 
     // extract http statuses
     const {
-        HTTP2_HEADER_PATH,
-        HTTP2_HEADER_METHOD,
+        HTTP_STATUS_INTERNAL_SERVER_ERROR,
         HTTP_STATUS_NOT_FOUND,
-        HTTP_STATUS_INTERNAL_SERVER_ERROR
+        HTTP_STATUS_OK,
+        HTTP2_HEADER_METHOD,
+        HTTP2_HEADER_PATH,
     } = http2.constants;
 
     // get user config
@@ -77,34 +42,58 @@ const serve = async () => {
     const serverRoot = `./dist`;
 
     // handle errors
-    const onError = (err: NodeJS.ErrnoException, stream: http2.ServerHttp2Stream) => {
+    const onError = (err: NodeJS.ErrnoException, res: http2.Http2ServerResponse) => {
 
         if (err.code === 'ENOENT') {
-            stream.respond({ ':status': HTTP_STATUS_NOT_FOUND });
+            res.writeHead(HTTP_STATUS_NOT_FOUND);
         } else {
-            stream.respond({ ':status': HTTP_STATUS_INTERNAL_SERVER_ERROR });
+            res.writeHead(HTTP_STATUS_INTERNAL_SERVER_ERROR);
         }
 
-        stream.end();
+        res.end();
     };
 
     // handle static requests
-    server.on('stream', (stream, headers) => {
-        let reqPath = headers[HTTP2_HEADER_PATH] as string;
-        const reqMethod = headers[HTTP2_HEADER_METHOD];
+    const onHmr = (req: http2.Http2ServerRequest, res: http2.Http2ServerResponse) => {
+        req.socket.setKeepAlive(true);
+        req.socket.setTimeout(30000000);
+        res.writeHead(HTTP_STATUS_OK, {
+            'cache-control': 'no-cache',
+            'content-type': 'text/event-stream',
+        });
 
-        if (reqPath === '/') {
-            reqPath = '/index.html';
+        const interval = setInterval(() => {
+            if (!res.stream.writable) {
+                console.log(`Not-writable.`);
+                clearInterval(interval);
+                return;
+            }
+
+            console.log(`Emitting...`);
+            res.write('test');
+        }, 1000);
+    };
+
+    server.on('request', (req, res) => {
+
+        let reqUrl = req.url;
+        log(reqUrl);
+        if (reqUrl === '/hmr') {
+            return onHmr(req, res);
         }
 
-        const fullPath = path.join(serverRoot, reqPath);
+        if (reqUrl === '/') {
+            reqUrl = '/index.html';
+        }
+
+        const fullPath = path.join(serverRoot, reqUrl);
         const responseMimeType = mime.lookup(fullPath) as string;
 
-        stream.respondWithFile(fullPath, {
+        res.stream.respondWithFile(fullPath, {
             'content-type': responseMimeType,
         }, {
-                onError: (err) => onError(err, stream),
-            });
+            onError: (err) => onError(err, res),
+        });
 
     });
 
@@ -114,7 +103,7 @@ const serve = async () => {
     // listen
     server.listen(config.devServer.port, config.devServer.host);
 
-    console.log(`Serving successful! Check out https://${config.devServer.host}:${config.devServer.port}/`);
+    log(`Serving successful! Check out https://${config.devServer.host}:${config.devServer.port}/`);
 
     // watch files
     await watch();

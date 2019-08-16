@@ -1,13 +1,13 @@
+import * as _ from 'lodash';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as _ from 'lodash';
 
-import { dirName } from './shared';
+import { dirName, log } from './shared';
 
 // command
 const init = async (argv: any) => {
-    console.log(`Initiating...`);
+    log(`Initiating...`);
 
     // variables
     const templatePath = `templates`;
@@ -19,15 +19,14 @@ const init = async (argv: any) => {
     const demandFilePath = path.resolve(__dirname, templatePath, `${demandFileName}.${templateExtension}`);
     const packageJsonPath = path.resolve(__dirname, templatePath, `${packageJsonName}.${templateExtension}`);
 
-
     // create src
     await fs.promises.mkdir(`src`);
-    console.log(`Created src.`);
+    log(`Created src.`);
 
     // create demand.config.ts
     const demandConfigTemplate = await fs.promises.readFile(demandFilePath, 'utf-8');
     await fs.promises.writeFile(demandFileName, demandConfigTemplate);
-    console.log(`Created ${demandFileName}.`);
+    log(`Created ${demandFileName}.`);
 
     // create package.json
     const packageJsonTemplateString = await fs.promises.readFile(packageJsonPath, 'utf-8');
@@ -36,13 +35,13 @@ const init = async (argv: any) => {
         dirName,
     });
     await fs.promises.writeFile(packageJsonName, packageJsonCompiled);
-    console.log(`Created ${packageJsonName}.`);
+    log(`Created ${packageJsonName}.`);
 
     // npm install
-    console.log(`npm install`);
+    log(`npm install`);
     childProcess.execSync(`npm install`);
 
-    console.log(`Initiation successful! Run \`demand serve\` to launch development server.`);
+    log(`Initiation successful! Run \`demand serve\` to launch development server.`);
 };
 
 export default init;

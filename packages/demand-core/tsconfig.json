@@ -2,7 +2,7 @@
     "compilerOptions": {
         "allowJs": false,
         "allowSyntheticDefaultImports": true,
-        "baseUrl": "./src",
+        "baseUrl": ".",
         "composite": true,
         "declaration": true,
         "emitDecoratorMetadata": true,

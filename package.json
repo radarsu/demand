@@ -10,6 +10,7 @@
     "license": "ISC",
     "devDependencies": {
         "lerna": "^3.15.0",
-        "nps": "^5.9.5"
+        "nps": "^5.9.5",
+        "tslint": "^5.18.0"
     }
 }

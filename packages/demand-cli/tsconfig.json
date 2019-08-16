@@ -15,10 +15,12 @@
         "removeComments": true,
         "resolveJsonModule": true,
         "sourceMap": true,
+        "typeRoots" : ["./node_modules/@types", "./typings"],
         "target": "esnext"
     },
     "include": [
         "src/**/*",
         "gulpfile.ts"
-    ]
+    ],
+    "files": ["package.json"]
 }

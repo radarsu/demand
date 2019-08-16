@@ -4,6 +4,7 @@
         "allowSyntheticDefaultImports": true,
         "baseUrl": "./src",
         "declaration": false,
+        "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "incremental": true,
@@ -11,15 +12,10 @@
         "noImplicitAny": true,
         "noLib": false,
         "outDir": "./dist",
-        "removeComments": true,
+        "removeComments": false,
         "sourceMap": true,
         "target": "esnext"
     },
-    "exclude": [
-        "node_modules",
-        "**/*.spec.ts"
-    ],
-    "include": [
-        "src/**/*"
-    ]
+    "exclude": ["node_modules", "**/*.spec.ts"],
+    "include": ["src/**/*"]
 }

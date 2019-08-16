@@ -1,10 +1,7 @@
-import Element from 'demand-element/dist/index';
+import * as lit from 'lit-element';
 
-console.log(`THE APP LOADED`);
-
-class TheApp extends Element {
-    /* demand:inject */
-
+class TheApp extends lit.LitElement {
+    test = 'asdf';
 }
 
 customElements.define('the-app', TheApp);
