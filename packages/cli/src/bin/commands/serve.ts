@@ -1,9 +1,5 @@
-<<<<<<< HEAD:packages/demand-cli/src/bin/commands/serve.ts
-import * as demand from '../../../../demand-core';
-=======
 import * as childProcess from 'child_process';
 import * as demand from '../../../../core';
->>>>>>> 5eb87133bcff5d83641e6134e30bb6c74875da15:packages/cli/src/bin/commands/serve.ts
 import * as fs from 'fs';
 import * as http2 from 'http2';
 import * as mime from 'mime-types';
