@@ -1,6 +1,0 @@
-{
-    "plugins": [
-        ["@babel/plugin-syntax-dynamic-import"],
-        ["import-pika-web", { "dir": "./dist/web_modules" }]
-    ]
-}
